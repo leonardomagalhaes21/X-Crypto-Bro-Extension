@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "The X Crypto Bro",
+  "version": "1.0",
+  "description": "Analyzes the sentiment of tweets on Twitter and X.",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup/popup.html"
+  },
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.twitter.com/*",
+        "*://*.x.com/*"
+      ],
+      "js": ["lib/sentiment.bundle.js", "src/content.js"]
+    }
+  ]
+}
+  
