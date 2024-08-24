@@ -92,9 +92,7 @@ function analyzeTweetsOnPage() {
     
     overallSentiment = cryptoTweetCount > 0 ? totalScore / cryptoTweetCount : 0;
 
-    chrome.storage.local.set({ overallSentiment }, () => {
-        chrome.runtime.sendMessage({ action: 'updateOverallSentiment', overallSentiment });
-    });
+    chrome.storage.local.set({ overallSentiment });
 }
 
 function toggleSentimentVisibility(visible) {

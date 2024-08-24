@@ -20,9 +20,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-chrome.runtime.onMessage.addListener((request) => {
-    if (request.action === 'updateOverallSentiment') {
-        const overallSentiment = request.overallSentiment !== undefined ? request.overallSentiment : 0;
-        document.getElementById('overall-sentiment').textContent = `Overall Crypto Sentiment: ${overallSentiment.toFixed(2)}`;
+chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === 'local') {
+        if (changes.sentimentVisible) {
+            document.getElementById('toggleSwitch').checked = changes.sentimentVisible.newValue;
+        }
+
+        if (changes.overallSentiment) {
+            const overallSentiment = changes.overallSentiment.newValue !== undefined ? changes.overallSentiment.newValue : 0;
+            document.getElementById('overall-sentiment').textContent = `Overall Crypto Sentiment: ${overallSentiment.toFixed(2)}`;
+        }
     }
 });
