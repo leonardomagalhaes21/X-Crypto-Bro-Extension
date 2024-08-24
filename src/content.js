@@ -71,14 +71,29 @@ function processTweetElement(tweetElement) {
     const sentimentScore = analyzeSentiment(tweetText);
     const sentimentIndicator = createSentimentIndicator(sentimentScore, context);
     tweetElement.parentElement.appendChild(sentimentIndicator);
+    return {sentimentScore, context};
 }
+
+let totalScore = 0;
+let cryptoTweetCount = 0;
+let overallSentiment = 0;
 
 function analyzeTweetsOnPage() {
     document.querySelectorAll('article div[lang]').forEach(tweetElement => {
         if (!tweetElement.hasAttribute('data-sentiment-checked')) {
-            processTweetElement(tweetElement);
+            const {sentimentScore, context} =  processTweetElement(tweetElement);
+            if (context !== "") {
+                totalScore += sentimentScore;
+                cryptoTweetCount++;
+            }
             tweetElement.setAttribute('data-sentiment-checked', 'true');
         }
+    });
+    
+    overallSentiment = cryptoTweetCount > 0 ? totalScore / cryptoTweetCount : 0;
+
+    chrome.storage.local.set({ overallSentiment }, () => {
+        chrome.runtime.sendMessage({ action: 'updateOverallSentiment', overallSentiment });
     });
 }
 

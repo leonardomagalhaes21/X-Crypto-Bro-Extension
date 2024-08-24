@@ -8,11 +8,21 @@ document.getElementById('toggleSwitch').addEventListener('change', (event) => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    chrome.storage.local.get('sentimentVisible', (data) => {
+    chrome.storage.local.get(['sentimentVisible', 'overallSentiment'], (data) => {
         if (data.sentimentVisible !== undefined) {
             document.getElementById('toggleSwitch').checked = data.sentimentVisible;
         } else {
             document.getElementById('toggleSwitch').checked = true; // Default to true if not set
         }
+
+        const overallSentiment = data.overallSentiment !== undefined ? data.overallSentiment : 0;
+        document.getElementById('overall-sentiment').textContent = `Overall Crypto Sentiment: ${overallSentiment.toFixed(2)}`;
     });
+});
+
+chrome.runtime.onMessage.addListener((request) => {
+    if (request.action === 'updateOverallSentiment') {
+        const overallSentiment = request.overallSentiment !== undefined ? request.overallSentiment : 0;
+        document.getElementById('overall-sentiment').textContent = `Overall Crypto Sentiment: ${overallSentiment.toFixed(2)}`;
+    }
 });
