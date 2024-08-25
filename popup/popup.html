@@ -7,15 +7,26 @@
     <link rel="stylesheet" href="/styles/styles.css">
 </head>
 <body>
+    <!-- fix this html syntax-->
     <div id="overall-sentiment">Overall Crypto Sentiment: 0</div>
     <label class="switch" for="toggleSwitch">
         <input type="checkbox" id="toggleSwitch" checked>
         <div class="slider round"></div>
     </label>
-    <div id="crypto-table">
-        
-    </div>
-
+    <table id="crypto-sentiment-table">
+        <thead>
+            <tr>
+                <th>Coin</th>
+                <th>Symbol</th>
+                <th>Price</th>
+                <th>24Hr Change</th>
+                <th>Average Sentiment</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
     <script src="/src/popup.js"></script>
 </body>
 </html>

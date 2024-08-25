@@ -3,6 +3,22 @@ const sentiment = new Sentiment();
 const cryptoKeywords = ['crypto', 'cryptocurrency', 'blockchain']; 
 const coinNames = ['bitcoin', 'ethereum', 'dogecoin', 'cardano', 'solana', 'xrp', 'litecoin', 'polkadot']; //TODO: Add the rest
 
+const coinData = {};
+
+//TODO: Improve the api fetching, maybe fetch all coins at once
+async function initializeCoinData() {
+    for (const coin of coinNames) {
+        const coinInfo = await fetchCoinData(coin);
+        coinData[coin] = {
+            price: coinInfo.price,
+            changePercent24Hr: coinInfo.changePercent24Hr,
+            symbol: coinInfo.symbol,
+            sentimentTotal: 0,
+            tweetCount: 0
+        };
+    }
+}
+
 function analyzeCryptoContext(tweet) {
     let context = '';
     const lowerCaseTweet = tweet.toLowerCase();
@@ -71,6 +87,17 @@ function processTweetElement(tweetElement) {
     const sentimentScore = analyzeSentiment(tweetText);
     const sentimentIndicator = createSentimentIndicator(sentimentScore, context);
     tweetElement.parentElement.appendChild(sentimentIndicator);
+
+    if (context !== "" && context !== "about crypto") {
+        const foundCoins = context.substring(6).split(', ');
+        for (const coin of foundCoins) {
+            if (coinData[coin]) {
+                coinData[coin].sentimentTotal += sentimentScore;
+                coinData[coin].tweetCount++;
+            }
+        }
+    }
+
     return {sentimentScore, context};
 }
 
@@ -92,7 +119,10 @@ function analyzeTweetsOnPage() {
     
     overallSentiment = cryptoTweetCount > 0 ? totalScore / cryptoTweetCount : 0;
 
-    chrome.storage.local.set({ overallSentiment });
+    chrome.storage.local.set({
+        overallSentiment: overallSentiment,
+        coinData: coinData
+    });
 }
 
 function toggleSentimentVisibility(visible) {
@@ -116,6 +146,7 @@ const observer = new MutationObserver((mutations) => {
 
 observer.observe(document.body, { childList: true, subtree: true });
 
+initializeCoinData();
 analyzeTweetsOnPage();
 
 chrome.storage.local.get('sentimentVisible', (data) => {
