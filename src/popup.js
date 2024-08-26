@@ -54,9 +54,9 @@ function updateSentimentTable(coinData) {
     for (const [coin, data] of Object.entries(coinData)) {
         if (data.tweetCount > 0) {
             const tr = document.createElement('tr');
-            const price = data.price ? `$${Number(data.price).toFixed(2)}` : '-';
+            const price = isNaN(Number(data.price)) ? '-' : `$${Number(data.price).toFixed(2)}`;
             const symbol = data.symbol ? data.symbol.toUpperCase() : '-';
-            const changePercent24Hr = data.changePercent24Hr ? `${Number(data.changePercent24Hr).toFixed(2)}%` : '-';
+            const changePercent24Hr = isNaN(Number(data.changePercent24Hr)) ? '-' : `${Number(data.changePercent24Hr).toFixed(2)}%`;
             const averageSentiment = data.sentimentTotal / data.tweetCount;
 
             const cells = [

@@ -5,10 +5,10 @@ const coinNames = ['bitcoin', 'ethereum', 'dogecoin', 'cardano', 'solana', 'xrp'
 
 const coinData = {};
 
-//TODO: Improve the api fetching, maybe fetch all coins at once
 async function initializeCoinData() {
+    const allCoinsData = await fetchAllCoinsData();
     for (const coin of coinNames) {
-        const coinInfo = await fetchCoinData(coin);
+        coinInfo = getCoinData(coin, allCoinsData);
         coinData[coin] = {
             price: coinInfo.price,
             changePercent24Hr: coinInfo.changePercent24Hr,
