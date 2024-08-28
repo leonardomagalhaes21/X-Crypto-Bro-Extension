@@ -2,7 +2,12 @@ document.getElementById('toggleSwitch').addEventListener('change', (event) => {
     const visible = event.target.checked;
     chrome.storage.local.set({ sentimentVisible: visible }, () => {
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            chrome.tabs.sendMessage(tabs[0].id, { action: 'toggleVisibility', visible });
+            const url = tabs[0].url;
+            if (url && (url.includes('twitter.com') || url.includes('x.com'))) {
+                chrome.tabs.sendMessage(tabs[0].id, { action: 'toggleVisibility', visible });
+            } else {
+                console.log('Not on Twitter/X. Toggle action ignored.');
+            }
         });
     });
 });

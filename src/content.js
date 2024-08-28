@@ -1,7 +1,7 @@
 const sentiment = new Sentiment();
 
 const cryptoKeywords = ['crypto', 'cryptocurrency', 'blockchain']; 
-const coinNames = ['bitcoin', 'ethereum', 'dogecoin', 'cardano', 'solana', 'xrp', 'litecoin', 'polkadot']; //TODO: Add the rest
+const coinNames = ['bitcoin', 'ethereum', 'tether', 'binancecoin', 'usd-coin', 'xrp', 'cardano', 'dogecoin', 'solana', 'tron', 'polkadot', 'litecoin', 'polygon', 'shiba-inu', 'avalanche', 'dai', 'wrapped-bitcoin', 'chainlink', 'uniswap', 'leo-token', 'cosmos', 'monero', 'okb', 'stellar', 'bitcoin-cash', 'ethereum-classic', 'filecoin', 'aptos', 'hedera', 'internet-computer', 'arbitrum', 'quant', 'lido-dao', 'cronos', 'vechain', 'near-protocol', 'the-graph', 'apecoin', 'algorand', 'stacks', 'maker', 'eos', 'frax', 'fantom', 'decentraland', 'tezos', 'elrond', 'aave', 'theta-network', 'immutable-x', 'gala', 'axie-infinity', 'flow', 'chiliz', 'kucoin-token', 'huobi-token', 'trust-wallet-token', 'pepe', 'pax-dollar', 'curve-dao-token'];
 
 const coinData = {};
 
@@ -86,6 +86,12 @@ function processTweetElement(tweetElement) {
     const context = analyzeCryptoContext(tweetText);
     const sentimentScore = analyzeSentiment(tweetText);
     const sentimentIndicator = createSentimentIndicator(sentimentScore, context);
+
+    chrome.storage.local.get('sentimentVisible', (data) => {
+        const visible = data.sentimentVisible !== undefined ? data.sentimentVisible : true;
+        sentimentIndicator.style.display = visible ? 'inline' : 'none';
+    });
+    
     tweetElement.parentElement.appendChild(sentimentIndicator);
 
     if (context !== "" && context !== "about crypto") {
