@@ -12,6 +12,25 @@ document.getElementById('toggleSwitch').addEventListener('change', (event) => {
     });
 });
 
+
+document.getElementById('resetButton').addEventListener('click', () => {
+    const confirmed = confirm('Are you sure you want to reset the sentiment data?');
+
+    if (confirmed) {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            const url = tabs[0].url;
+            if (url && (url.includes('twitter.com') || url.includes('x.com'))) {
+                chrome.tabs.sendMessage(tabs[0].id, { action: 'resetData' });
+            } else {
+                console.log('Not on Twitter/X. Reset action not done.');
+            }
+        });
+    }
+    else {
+        console.log('Reset action cancelled by the user.');
+    }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     chrome.storage.local.get(['sentimentVisible', 'overallSentiment', 'coinData'], (data) => {
         if (data.sentimentVisible !== undefined) {

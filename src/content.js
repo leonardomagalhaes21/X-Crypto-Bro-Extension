@@ -82,29 +82,37 @@ function createSentimentIndicator(score, context) {
 
 
 function processTweetElement(tweetElement) {
-    const tweetText = tweetElement.innerText;
-    const context = analyzeCryptoContext(tweetText);
-    const sentimentScore = analyzeSentiment(tweetText);
-    const sentimentIndicator = createSentimentIndicator(sentimentScore, context);
+    try{
+        const tweetText = tweetElement.innerText;
+        const context = analyzeCryptoContext(tweetText);
+        const sentimentScore = analyzeSentiment(tweetText);
+        const sentimentIndicator = createSentimentIndicator(sentimentScore, context);
 
-    chrome.storage.local.get('sentimentVisible', (data) => {
-        const visible = data.sentimentVisible !== undefined ? data.sentimentVisible : true;
-        sentimentIndicator.style.display = visible ? 'inline' : 'none';
-    });
-    
-    tweetElement.parentElement.appendChild(sentimentIndicator);
+        sentimentIndicator.style.display = 'none';
 
-    if (context !== "" && context !== "about crypto") {
-        const foundCoins = context.substring(6).split(', ');
-        for (const coin of foundCoins) {
-            if (coinData[coin]) {
-                coinData[coin].sentimentTotal += sentimentScore;
-                coinData[coin].tweetCount++;
+        chrome.storage.local.get('sentimentVisible', (data) => {
+            const visible = data.sentimentVisible !== undefined ? data.sentimentVisible : true;
+            sentimentIndicator.style.display = visible ? 'inline' : 'none';
+        });
+        
+        tweetElement.parentElement.appendChild(sentimentIndicator);
+
+        if (context !== "" && context !== "about crypto") {
+            const foundCoins = context.substring(6).split(', ');
+            for (const coin of foundCoins) {
+                if (coinData[coin]) {
+                    coinData[coin].sentimentTotal += sentimentScore;
+                    coinData[coin].tweetCount++;
+                }
             }
         }
-    }
 
-    return {sentimentScore, context};
+        return {sentimentScore, context};
+    }
+    catch (e) {
+        console.log("Error processing tweet element:", e);
+    }
+    
 }
 
 let totalScore = 0;
@@ -127,6 +135,22 @@ function analyzeTweetsOnPage() {
 
     chrome.storage.local.set({
         overallSentiment: overallSentiment,
+        coinData: coinData
+    });
+}
+
+function resetData() {
+    totalScore = 0;
+    cryptoTweetCount = 0;
+    overallSentiment = 0;
+
+    Object.keys(coinData).forEach(coin => {
+        coinData[coin].sentimentTotal = 0;
+        coinData[coin].tweetCount = 0;
+    });
+
+    chrome.storage.local.set({
+        overallSentiment: 0,
         coinData: coinData
     });
 }
@@ -163,5 +187,12 @@ chrome.storage.local.get('sentimentVisible', (data) => {
 chrome.runtime.onMessage.addListener((request) => {
     if (request.action === 'toggleVisibility') {
         toggleSentimentVisibility(request.visible);
+    }
+});
+
+chrome.runtime.onMessage.addListener((request) => {
+    if (request.action === 'resetData') {
+        console.log("Resetting data");
+        resetData();
     }
 });
