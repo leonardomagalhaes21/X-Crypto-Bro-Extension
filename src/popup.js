@@ -41,6 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const overallSentiment = data.overallSentiment !== undefined ? data.overallSentiment : 0;
         document.getElementById('overall-sentiment').textContent = `Overall Crypto Sentiment: ${overallSentiment.toFixed(2)}`;
+        value = (overallSentiment + 10) / 20;
+        setGaugeValue(value);
 
         if (data.coinData) {
             updateSentimentTable(data.coinData);
@@ -57,6 +59,8 @@ chrome.storage.onChanged.addListener((changes, area) => {
         if (changes.overallSentiment) {
             const overallSentiment = changes.overallSentiment.newValue !== undefined ? changes.overallSentiment.newValue : 0;
             document.getElementById('overall-sentiment').textContent = `Overall Crypto Sentiment: ${overallSentiment.toFixed(2)}`;
+            value = (overallSentiment + 10) / 20;
+            setGaugeValue(value);
         }
 
         if (changes.coinData) {
@@ -100,4 +104,32 @@ function updateSentimentTable(coinData) {
             tbody.appendChild(tr);
         }
     }
+}
+
+
+function setGaugeValue(value) {
+    gauge = document.querySelector(".gauge");
+    gauge_fill = document.querySelector(".gauge__fill");
+
+    if (value < 0 || value > 1) {
+        return;
+    }
+
+    if (value < 0.4) {
+        gauge_fill.style.background = "var(--dark-red)";
+    }
+    else if (value >= 0.4 && value < 0.5) {
+        gauge_fill.style.background = "var(--red)";
+    }
+    else if (value === 0.5) {
+        gauge_fill.style.background = "var(--gray)";
+    }
+    else if (value > 0.5 && value < 0.6) {
+        gauge_fill.style.background = "var(--green)";
+    }
+    else {
+        gauge_fill.style.background = "var(--dark-green)";
+    }
+
+    gauge_fill.style.transform = `rotate(${value / 2}turn)`;
 }

@@ -133,10 +133,16 @@ function analyzeTweetsOnPage() {
     
     overallSentiment = cryptoTweetCount > 0 ? totalScore / cryptoTweetCount : 0;
 
-    chrome.storage.local.set({
-        overallSentiment: overallSentiment,
-        coinData: coinData
-    });
+    try {
+        chrome.storage.local.set({
+            overallSentiment: overallSentiment,
+            coinData: coinData
+        });
+    }
+    catch (e) {
+        console.log("An error occurred while setting chrome storage:", e);
+    }
+    
 }
 
 function resetData() {

@@ -1,3 +1,32 @@
+    :root {
+        --dark-gray: #1e1e1e;
+        --light-gray: #f0f0f0;
+        --gray: #ccc;
+        --white: #fff;
+        --green: #66bb6a;
+        --dark-green: #388e3c;
+        --red: #ef5350;
+        --dark-red: #d32f2f;
+        --light-gray-background: #dddddd;
+        --light-gray-border: #cccccc;
+        --lighter-gray: #e6e6e6;
+        --hover-gray: #dddddd;
+        --table-header-background: #f2f2f2;
+        --dark-text: #333333;
+        --bold-text: #000000;
+    }
+
+    body {
+        background-color: var(--dark-gray);
+        /*background-image: url();*/
+        background-size: cover;
+        background-position: center;
+        color: var(--light-gray);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 2em;
+    }
+
     /* Switch button */
     
     .switch {
@@ -12,7 +41,7 @@
     }
 
     .slider {
-        background-color: #ccc;
+        background-color: var(--gray);
         bottom: 0;
         cursor: pointer;
         left: 0;
@@ -23,7 +52,7 @@
     }
 
     .slider:before {
-        background-color: #fff;
+        background-color: var(--white);
         bottom: 4px;
         content: "";
         height: 26px;
@@ -34,7 +63,7 @@
     }
 
     input:checked + .slider {
-        background-color: #66bb6a;
+        background-color: var(--green);
     }
 
     input:checked + .slider:before {
@@ -50,41 +79,96 @@
     }
 
     /* Table styling */
+    
     table {
         width: 100%;
         border-collapse: collapse;
         margin: 20px 0;
-        background-color: #dddddd;
+        background-color: var(--light-gray-background);
         border-radius: 8px;
         overflow: hidden;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
     }
 
     table thead th {
-        background-color: #f2f2f2;
-        color: #333333;
+        background-color: var(--table-header-background);
+        color: var(--dark-text);
         text-align: left;
         padding: 12px 15px;
     }
 
     table tbody tr {
-        border-bottom: 1px solid #cccccc;
+        border-bottom: 1px solid var(--light-gray-border);
     }
 
     table tbody tr:nth-of-type(even) {
-        background-color: #e6e6e6;
+        background-color: var(--lighter-gray);
     }
 
     table tbody tr:hover {
-        background-color: #dddddd;
+        background-color: var(--hover-gray);
     }
 
     table tbody td {
         padding: 12px 15px;
-        color: #333333;
+        color: var(--dark-text);
     }
 
     table tbody td:first-child {
         font-weight: bold;
-        color: #000000;
+        color: var(--bold-text);
     }
+
+    /* gauge */
+
+    .gauge {
+        width: 100%;
+        max-width: 250px;
+        font-family: "Roboto", sans-serif;
+        font-size: 32px;
+        color: var(--white);
+    }
+    
+    .gauge__body {
+        width: 100%;
+        height: 0;
+        padding-bottom: 50%;
+        background: var(--light-gray);
+        position: relative;
+        border-top-left-radius: 100% 200%;
+        border-top-right-radius: 100% 200%;
+        overflow: hidden;
+    }
+    
+    .gauge__fill {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: inherit;
+        height: 100%;
+        background: var(--green);
+        transform-origin: center top;
+        transform: rotate(0.25turn);
+        transition: transform 0.2s ease-out;
+    }
+    
+    .gauge__cover {
+        width: 75%;
+        height: 150%;
+        background: var(--dark-gray);
+        border-radius: 50%;
+        position: absolute;
+        top: 25%;
+        left: 50%;
+        transform: translateX(-50%);
+        
+        /* TODO change to make the sentiment here on the cover instead of on the top */
+        /* Text */
+        /*display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 25%;
+        box-sizing: border-box;
+        */
+    }
+            
