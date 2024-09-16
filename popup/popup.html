@@ -9,13 +9,17 @@
 </head>
 <body>
     <!-- TODO fix this html syntax-->
-    <div id="overall-sentiment">Overall Crypto Sentiment: 0</div>
-    <div class="gauge">
-        <div class="gauge__body">
-            <div class="gauge__fill"></div>
-            <div class="gauge__cover"></div>
+    <section id="sentiment">
+        <div class="gauge">
+            <div class="gauge__body">
+                <div class="gauge__fill"></div>
+                <div class="gauge__cover">
+                    <span class="sentiment-text">Overall Sentiment</span>
+                    <span class="sentiment-value">0</span>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
     <label class="switch" for="toggleSwitch">
         <input type="checkbox" id="toggleSwitch" checked>
         <div class="slider round"></div>

@@ -27,6 +27,12 @@
         padding: 2em;
     }
 
+    section#sentiment{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     /* Switch button */
     
     .switch {
@@ -119,6 +125,16 @@
         color: var(--bold-text);
     }
 
+    .change-percent-negative, .sentiment-negative {
+        font-weight: bold;
+        color: var(--red);
+    }
+    
+    .change-percent-positive, .sentiment-positive {
+        font-weight: bold;
+        color: var(--green);
+    }
+    
     /* gauge */
 
     .gauge {
@@ -162,13 +178,24 @@
         left: 50%;
         transform: translateX(-50%);
         
-        /* TODO change to make the sentiment here on the cover instead of on the top */
         /* Text */
-        /*display: flex;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
         align-items: center;
         justify-content: center;
         padding-bottom: 25%;
         box-sizing: border-box;
-        */
+    }
+
+    .sentiment-text {
+        display: block;
+        font-size: 0.4em;
+    }
+
+    .sentiment-value {
+        display: block;
+        font-size: 1.2em;
+        font-weight: bold;
     }
             

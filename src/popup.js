@@ -40,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const overallSentiment = data.overallSentiment !== undefined ? data.overallSentiment : 0;
-        document.getElementById('overall-sentiment').textContent = `Overall Crypto Sentiment: ${overallSentiment.toFixed(2)}`;
         value = (overallSentiment + 10) / 20;
         setGaugeValue(value);
 
@@ -58,7 +57,6 @@ chrome.storage.onChanged.addListener((changes, area) => {
 
         if (changes.overallSentiment) {
             const overallSentiment = changes.overallSentiment.newValue !== undefined ? changes.overallSentiment.newValue : 0;
-            document.getElementById('overall-sentiment').textContent = `Overall Crypto Sentiment: ${overallSentiment.toFixed(2)}`;
             value = (overallSentiment + 10) / 20;
             setGaugeValue(value);
         }
@@ -68,6 +66,16 @@ chrome.storage.onChanged.addListener((changes, area) => {
         }
     }
 });
+
+function getClassFullName(className, value) {
+    if (value > 0) {
+        return className + '-positive';
+    } else if (value < 0) {
+        return className + '-negative';
+    } else {
+        return className + '-neutral';
+    }
+}
 
 function updateSentimentTable(coinData) {
     if (!coinData || typeof coinData !== 'object' || Object.keys(coinData).length === 0) {
@@ -88,16 +96,19 @@ function updateSentimentTable(coinData) {
             const averageSentiment = data.sentimentTotal / data.tweetCount;
 
             const cells = [
-                coin,
-                symbol,
-                price,
-                changePercent24Hr,
-                averageSentiment.toFixed(2)
+                {text: coin, className: 'coin'},
+                {text: symbol, className: 'symbol'},
+                {text: price, className: 'price'},
+                {text: changePercent24Hr, className: getClassFullName('change-percent', Number(data.changePercent24Hr))},
+                {text: averageSentiment.toFixed(2), className: getClassFullName('sentiment', averageSentiment)},
             ];
 
-            cells.forEach(text => {
+            cells.forEach(({text, className}) => {
                 const td = document.createElement('td');
-                td.textContent = text;
+                const span = document.createElement('span');
+                span.className = className;
+                span.textContent = text;
+                td.appendChild(span);
                 tr.appendChild(td);
             });
 
@@ -110,6 +121,7 @@ function updateSentimentTable(coinData) {
 function setGaugeValue(value) {
     gauge = document.querySelector(".gauge");
     gauge_fill = document.querySelector(".gauge__fill");
+    sentimentValue = document.querySelector(".gauge__cover .sentiment-value");
 
     if (value < 0 || value > 1) {
         return;
@@ -132,4 +144,7 @@ function setGaugeValue(value) {
     }
 
     gauge_fill.style.transform = `rotate(${value / 2}turn)`;
+
+    sentiment = (value * 20) - 10
+    sentimentValue.textContent = sentiment.toFixed(2);
 }
