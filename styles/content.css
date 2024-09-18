@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+.sentiment-indicator {
+    display: inline-block;
+    padding: 6px 14px;
+    margin-top: 0.5em;
+    margin-left: 10px;
+    border-radius: 16px;
+    font-size: 13px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    color: #fff;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.sentiment-score {
+    display: none;
+    margin-left: 3em;
+}
+
+.sentiment-positive {
+    background-color: #4caf50; 
+    box-shadow: 0 3px 8px rgba(76, 175, 80, 0.3);
+}
+
+.sentiment-very-positive {
+    background-color: #087f23;
+    box-shadow: 0 3px 8px rgba(8, 127, 35, 0.4);
+}
+
+.sentiment-negative {
+    background-color: #f44336;
+    box-shadow: 0 3px 8px rgba(244, 67, 54, 0.3);
+}
+
+.sentiment-very-negative {
+    background-color: #b71c1c;
+    box-shadow: 0 3px 8px rgba(183, 28, 28, 0.4);
+}
+
+.sentiment-neutral {
+    background-color: #9e9e9e;
+    box-shadow: 0 3px 8px rgba(158, 158, 158, 0.3);
+}
+
+.sentiment-indicator:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+}

@@ -16,7 +16,8 @@
         "*://*.twitter.com/*",
         "*://*.x.com/*"
       ],
-      "js": ["lib/sentiment.bundle.js", "src/api.js", "src/content.js"]
+      "js": ["lib/sentiment.bundle.js", "src/api.js", "src/content.js"],
+      "css": ["styles/content.css"]
     }
   ],
   "icons": {

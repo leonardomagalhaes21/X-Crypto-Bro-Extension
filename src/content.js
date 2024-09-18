@@ -53,29 +53,38 @@ function analyzeSentiment(tweet) {
 
 function createSentimentIndicator(score, context) {
     const indicator = document.createElement('span');
-    indicator.className = 'sentiment-indicator';
-    indicator.style.padding = '0 8px';
-    indicator.style.marginLeft = '10px';
-    indicator.style.borderRadius = '4px';
-    indicator.style.color = '#fff';
-    indicator.style.fontWeight = 'bold';
+    indicator.classList.add('sentiment-indicator');
+
+    const scoreSpan = document.createElement('span');
+    scoreSpan.className = 'sentiment-score';
+    scoreSpan.textContent = `Score: ${score}`;
     
     if (score > 5) {
-        indicator.style.backgroundColor = '#004d00'; // Dark green
+        indicator.classList.add('sentiment-very-positive');
         indicator.textContent = `Very Positive ${context}`;
     } else if (score > 0) {
-        indicator.style.backgroundColor = '#00b33c'; // Green
+        indicator.classList.add('sentiment-positive');
         indicator.textContent = `Positive ${context}`;
     } else if (score === 0) {
-        indicator.style.backgroundColor = 'gray'; // Neutral
+        indicator.classList.add('sentiment-neutral');
         indicator.textContent = `Neutral ${context}`;
     } else if (score > -5) {
-        indicator.style.backgroundColor = '#ff9999'; // Light red
+        indicator.classList.add('sentiment-negative');
         indicator.textContent = `Negative ${context}`;
     } else if (score <= -5) {
-        indicator.style.backgroundColor = '#cc0000'; // Dark red
+        indicator.classList.add('sentiment-very-negative');
         indicator.textContent = `Very Negative ${context}`;
     }
+
+    indicator.appendChild(scoreSpan);
+
+    indicator.addEventListener('mouseenter', () => {
+        scoreSpan.style.display = 'inline';
+    });
+
+    indicator.addEventListener('mouseleave', () => {
+        scoreSpan.style.display = 'none';
+    });
     
     return indicator;
 }
