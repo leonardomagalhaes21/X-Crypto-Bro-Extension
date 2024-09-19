@@ -148,3 +148,28 @@ function setGaugeValue(value) {
     sentiment = (value * 20) - 10
     sentimentValue.textContent = sentiment.toFixed(2);
 }
+
+function exportTableToCSV() {
+    const table = document.getElementById('crypto-sentiment-table');
+    let csv = [];
+    const rows = table.querySelectorAll('tr');
+    
+    rows.forEach((row) => {
+        const cols = row.querySelectorAll('td, th');
+        const rowData = [];
+        cols.forEach((col) => rowData.push(col.innerText));
+        csv.push(rowData.join(','));
+    });
+
+    const csvContent = 'data:text/csv;charset=utf-8,' + csv.join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', 'crypto_sentiment_data.csv');
+    document.body.appendChild(link); // Required for Firefox
+    link.click();
+    document.body.removeChild(link);
+}
+
+document.getElementById('exportButton').addEventListener('click', exportTableToCSV);
+

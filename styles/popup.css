@@ -229,4 +229,26 @@
     #resetButton:hover {
         background-color: var(--dark-red);
     }
+
+    /* export button */
+
+    #exportButton {
+        background-color: var(--green);
+        color: var(--white);
+        border: none;
+        border-radius: 4px;
+        padding: 0.5em 1em;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.2s ease-out;
+    }
+
+    #exportButton:hover {
+        background-color: var(--dark-green);
+    }
+
+    .buttons-container {
+        display: flex;
+        justify-content: space-between;
+    }
             
