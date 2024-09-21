@@ -44,6 +44,9 @@ A browser extension that analyzes the sentiment of cryptocurrency-related tweets
 ### Visibility Toggle
 - The extension includes a visibility toggle that can show or hide sentiment indicators.
 
+### Export to CSV
+- To export the current sentiment data, simply click the Export to CSV button available in the popup interface. This will generate and download a CSV file containing sentiment data and coin statistics.
+
 ## 🎨 Screenshots
 
 ### Sentiment Gauge & Coin Data Table
