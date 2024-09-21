@@ -2,6 +2,8 @@
 
 A browser extension that analyzes the sentiment of cryptocurrency-related tweets in real-time, providing insights into market sentiment for various coins. The extension includes a sentiment gauge, real-time data on popular cryptocurrencies, a toggle switch to control the visibility of sentiment indicators in X's website and the ability to export sentiment data as a CSV file.
 
+![X-Crypto-Bro-Extension gif](images/extension-gif.gif)
+
 ## 🚀 Features
 
 - **Sentiment Analysis:** Uses natural language processing to evaluate tweets related to cryptocurrencies.
